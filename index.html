@@ -98,6 +98,22 @@
       opacity: 0.92;
     }
 
+    .hero-subtitle a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      letter-spacing: 0.35em;
+    }
+
+    .hero-subtitle a:hover {
+      color: var(--gold-light);
+    }
+
+    .hero-subtitle span {
+      color: rgba(255,255,255,0.2);
+      margin: 0 6px;
+    }
+
     .hero-line {
       width: 1px;
       height: 80px;
@@ -522,7 +538,15 @@
     <h1 class="hero-title">
       未来への、<em>お守りをつくる。</em>
     </h1>
-    <p class="hero-subtitle">Purpose · Mission · Vision · Values</p>
+    <p class="hero-subtitle">
+      <a href="#purpose">Purpose</a>
+      <span>·</span>
+      <a href="#mission">Mission</a>
+      <span>·</span>
+      <a href="#vision">Vision</a>
+      <span>·</span>
+      <a href="#values">Values</a>
+    </p>
     <div class="hero-line"></div>
   </section>
 
