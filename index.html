@@ -390,6 +390,85 @@
       margin-top: 16px;
     }
 
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26, 22, 16, 0);
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(26, 22, 16, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .nav-list a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 3px;
+    }
+
+    .nav-list a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-list a:hover {
+      color: var(--gold-light);
+    }
+
+    .nav-list a:hover::after,
+    .nav-list a.active::after {
+      width: 100%;
+    }
+
+    .nav-list a.active {
+      color: var(--gold-light);
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        padding: 0 16px;
+        height: 48px;
+      }
+      .nav-list {
+        gap: 20px;
+      }
+      .nav-list a {
+        font-size: 11px;
+        letter-spacing: 0.25em;
+      }
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 640px) {
       section {
@@ -423,6 +502,16 @@
 </head>
 <body>
 
+  <!-- NAV -->
+  <nav class="nav" id="main-nav">
+    <ul class="nav-list">
+      <li><a href="#purpose">Purpose</a></li>
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#vision">Vision</a></li>
+      <li><a href="#values">Values</a></li>
+    </ul>
+  </nav>
+
   <!-- HERO -->
   <section class="hero">
     <img
@@ -439,7 +528,7 @@
 
 
   <!-- PURPOSE -->
-  <section class="purpose">
+  <section class="purpose" id="purpose">
     <div class="container">
       <div class="purpose-inner">
         <div class="purpose-left">
@@ -458,7 +547,7 @@
 
 
   <!-- MISSION -->
-  <section class="mission">
+  <section class="mission" id="mission">
     <div class="container">
       <div class="mission-card">
         <span class="mission-label">02 &nbsp;|&nbsp; Mission — 私たちの使命</span>
@@ -475,7 +564,7 @@
 
 
   <!-- VISION -->
-  <section class="vision">
+  <section class="vision" id="vision">
     <div class="container">
       <span class="section-label">03 &nbsp;|&nbsp; Vision — 目指す未来</span>
       <h2 class="vision-tagline">
@@ -494,7 +583,7 @@
 
 
   <!-- VALUES -->
-  <section class="values">
+  <section class="values" id="values">
     <div class="container">
       <div class="values-header">
         <span class="section-label">04 &nbsp;|&nbsp; Values — 私たちが大切にする価値観</span>
@@ -549,6 +638,33 @@
     <p class="footer-ornament">Purpose &nbsp;·&nbsp; Mission &nbsp;·&nbsp; Vision &nbsp;·&nbsp; Values</p>
     <p class="footer-copy">&copy; 株式会社SOI &nbsp;|&nbsp; A ONE-OF-A-KIND STORIES FOR YOU</p>
   </footer>
+
+  <script>
+    // Nav background on scroll
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Active link highlight based on scroll position
+    const sections = ['purpose', 'mission', 'vision', 'values'];
+    const navLinks = document.querySelectorAll('.nav-list a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  </script>
 
 </body>
 </html>
